@@ -3,6 +3,7 @@ package com.mtg.loginpage
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -21,7 +22,7 @@ class Backdoor : AppCompatActivity() {
 
         val email = intent.getStringExtra("String")
 
-        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.layoutManager = GridLayoutManager(this, 2)
 
         var data = ArrayList<Item>()
         data.addAll(ItemData().listData)
