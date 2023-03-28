@@ -2,32 +2,69 @@ package com.mtg.loginpage
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import android.view.MenuItem
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 
-class Backdoor : AppCompatActivity() {
-    lateinit var text: TextView
-    lateinit var textDikirim: TextView
-    lateinit var recycler: RecyclerView
-    lateinit var adapter: Adapter
+class Backdoor : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
+    lateinit var pager: ViewPager
+    lateinit var bottomNav: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_backdoor)
 
-        textDikirim = findViewById(R.id.dikirim)
-        recycler = findViewById(R.id.recycler)
+        pager = findViewById(R.id.pager)
+        bottomNav = findViewById(R.id.bottom_navigation)
+
+        val pageAdapter = ViewPageAdapter(initFragments(), supportFragmentManager)
+        pager.adapter = pageAdapter
 
         val email = intent.getStringExtra("String")
-
-        recycler.layoutManager = GridLayoutManager(this, 2)
+        val bundle = Bundle()
+        bundle.putString("email", email)
+        val fragment = Home()
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction().add(R.id.pager, fragment).commit()
 
         var data = ArrayList<Item>()
         data.addAll(ItemData().listData)
 
-        adapter = Adapter(data)
-        recycler.adapter = adapter
+        bottomNav.setOnItemSelectedListener(this)
+        pager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {}
+            override fun onPageSelected(position: Int) {
+                bottomNav.menu.getItem(position).setChecked(true)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+
+        })
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.home -> pager.currentItem = 0
+            R.id.wishlist -> pager.currentItem = 1
+            R.id.profile -> pager.currentItem = 2
+            else -> {}
+        }
+        return true
+    }
+    fun initFragments(): ArrayList<Fragment>{
+        return arrayListOf(
+            Home.newInstance(),
+            Favorite.newInstance(),
+            Profile.newInstance()
+        )
     }
 }

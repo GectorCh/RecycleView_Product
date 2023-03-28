@@ -11,7 +11,7 @@
         android:id="@+id/signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MagiWeb"
+        android:text="Sign in"
         android:textColor="@color/white"
         android:textSize="35dp"
         android:textStyle="bold"
@@ -22,7 +22,7 @@
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="E-mail"
         android:layout_below="@id/signin"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
@@ -54,6 +54,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
         android:text="LOGIN"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login"
+        android:text="register"
         android:backgroundTint="@color/design_default_color_secondary"
         android:layout_centerHorizontal="true"/>
 
